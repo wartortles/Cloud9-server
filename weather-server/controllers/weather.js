@@ -3,10 +3,12 @@ const router = express.Router();
 
 const Weather = require('../models/weather');
 
-router.get('/', Weather.findAll,
+
+router.get('/', Weather.findAll, Weather.darkSky,
 	(req, res) => {
 		res.json({
-			weather: res.locals.savedAll
+			locations: res.locals.savedAll,
+			weatherData: res.locals.weatherData
 		});
 	});
 

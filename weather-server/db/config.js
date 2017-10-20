@@ -3,8 +3,9 @@ const pgp = require('pg-promise')();
 const cn = {
 	host: 'localhost',
 	port: 5432,
-	database: 'cloud_9',
-	user: 'Drisdon'
+	database: 'weather-app',
+	user: 'rohtaswadera'
+
 }
 
 const db = pgp(cn);

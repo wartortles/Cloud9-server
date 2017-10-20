@@ -1,5 +1,6 @@
 const db = require('../db/config');
 const Weather = {};
+const axios = require('axios');
 
 Weather.findAll = (req, res, next) => {
 	db.many('SELECT * FROM locations')
@@ -62,6 +63,26 @@ Weather.destroy = (req, res, next) => {
 		console.log(`ERROR DELETING: ${err}`)
 	});
 };
+
+Weather.darkSky = (req, res, next) => { 
+	const weatherData = [];
+	console.log(res.locals.savedAll);
+	res.locals.savedAll.forEach((location) => {
+		const url = `https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`;
+		console.log(url);
+		const weather = 
+		axios.get(`https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`)
+		weatherData.push(weather);
+		})
+
+		axios.all(weatherData)
+		.then(responses => {
+			responses = responses.map(response => response.data);
+			console.log(responses);
+			res.locals.weatherData = responses;
+			next();
+		})
+}
 
 
 module.exports = Weather;
