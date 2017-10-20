@@ -4,7 +4,7 @@ const cn = {
 	host: 'localhost',
 	port: 5432,
 	database: 'weather-app',
-	user: 'matthewkim'
+	user: 'rohtaswadera'
 }
 
 const db = pgp(cn);
