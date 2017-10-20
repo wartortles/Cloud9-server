@@ -70,5 +70,15 @@ Weather.darkSky = (req, res, next) => {
 		})
 }
 
+Weather.darkSkyOne = (req, res, next) => {
+	const weatherData = [];
+	const location = res.locals.single
+	axios.get(`https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`)
+	.then(response => {
+		res.locals.weatherData = response.data
+		next();
+	})
+}
+
 
 module.exports = Weather;
