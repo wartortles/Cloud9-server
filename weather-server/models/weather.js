@@ -28,7 +28,21 @@ Weather.findById = (req, res, next) => {
 
 Weather.create = (req, res, next) => {
 	const { latitude, longitude } = req.body;
-	db.one(`INSERT INTO locations (latitude, longitude) 
+	db.one(`INSERT INTO locations (latitude, longitude)
+		VALUES ($1, $2) RETURNING *`, [latitude, longitude])
+	.then(newAdd => {
+		res.locals.newAdd = newAdd;
+		next();
+	})
+	.catch(err => {
+		console.log(`ERROR adding NEW: ${err}`)
+	});
+};
+
+Weather.createFromSearch = (req, res, next) => {
+	const latitude = res.locals.latLong.lat,
+				longitude  = res.locals.latLong.lng;
+	db.one(`INSERT INTO locations (latitude, longitude)
 		VALUES ($1, $2) RETURNING *`, [latitude, longitude])
 	.then(newAdd => {
 		res.locals.newAdd = newAdd;
