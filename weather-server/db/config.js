@@ -3,8 +3,8 @@ const pgp = require('pg-promise')();
 const cn = {
 	host: 'localhost',
 	port: 5432,
-	database: 'weather-app',
-	user: 'rohtaswadera'
+	database: 'cloud_9',
+	user: 'Drisdon'
 
 }
 

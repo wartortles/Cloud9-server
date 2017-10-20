@@ -14,6 +14,16 @@ router.get('/geocode/:placeId',
     });
 });
 
+router.get('/single/:query',
+  Search.getFirstResult,
+  Search.getLatLongForInput,
+  Weather.createFromSearch,
+	(req, res) => {
+		res.json({
+			results: res.locals.latLong
+		});
+	});
+
 router.get('/:query',
   Search.populateResults,
 	(req, res) => {
