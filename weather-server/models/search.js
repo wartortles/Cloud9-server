@@ -14,7 +14,7 @@ Search.populateResults = (req, res, next) => {
       }
       return result;
     });
-    console.log(res.locals.results);
+    //console.log(res.locals.results);
     next();
   });
 }
@@ -28,7 +28,7 @@ Search.getFirstResult = (req, res, next) => {
         placeId: response.data.predictions[0].place_id
       }
     res.locals.result = result;
-    console.log(res.locals.result);
+    //console.log(res.locals.result);
     next();
   });
 }
@@ -38,7 +38,8 @@ Search.getLatLongForInput = (req, res, next) => {
   axios.get(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${process.env.GEO_KEY}`)
   .then(response => {
     res.locals.latLong = response.data.results[0].geometry.location;
-    console.log(res.locals.latLong);
+    res.locals.name = res.locals.result.description
+    //console.log(res.locals.latLong);
     next();
   });
 }
@@ -46,10 +47,11 @@ Search.getLatLongForInput = (req, res, next) => {
 // gets lat long data from search results
 Search.getLatLong = (req, res, next) => {
   const placeId = req.params.placeId
+  res.locals.name = req.body.name;
   axios.get(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${process.env.GEO_KEY}`)
   .then(response => {
     res.locals.latLong = response.data.results[0].geometry.location;
-    console.log(res.locals.latLong);
+    //console.log(res.locals.latLong);
     next();
   });
 }

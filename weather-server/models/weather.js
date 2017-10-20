@@ -22,9 +22,9 @@ Weather.findById = (req, res, next) => {
 };
 
 Weather.create = (req, res, next) => {
-  const {latitude, longitude} = req.body;
-  db.one(`INSERT INTO locations (latitude, longitude)
-		VALUES ($1, $2) RETURNING *`, [latitude, longitude]).then(newAdd => {
+  const {name, latitude, longitude} = req.body;
+  db.one(`INSERT INTO locations (name, latitude, longitude)
+		VALUES ($1, $2, $3) RETURNING *`, [name, latitude, longitude]).then(newAdd => {
     res.locals.newAdd = newAdd;
     next();
   }).catch(err => {
@@ -33,10 +33,11 @@ Weather.create = (req, res, next) => {
 };
 
 Weather.createFromSearch = (req, res, next) => {
-  const latitude = res.locals.latLong.lat,
+  const name = res.locals.name,
+		latitude = res.locals.latLong.lat,
     longitude = res.locals.latLong.lng;
-  db.one(`INSERT INTO locations (latitude, longitude)
-		VALUES ($1, $2) RETURNING *`, [latitude, longitude]).then(newAdd => {
+  db.one(`INSERT INTO locations (name, latitude, longitude)
+		VALUES ($1, $2, $3) RETURNING *`, [name, latitude, longitude]).then(newAdd => {
     res.locals.newAdd = newAdd;
     next();
   }).catch(err => {
@@ -53,17 +54,17 @@ Weather.destroy = (req, res, next) => {
 
 Weather.darkSky = (req, res, next) => {
   const weatherData = [];
-  console.log(res.locals.savedAll);
+  //console.log(res.locals.savedAll);
   res.locals.savedAll.forEach((location) => {
     const url = `https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`;
-    console.log(url);
+    //console.log(url);
     const weather = axios.get(`https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`)
     weatherData.push(weather);
   })
 
   axios.all(weatherData).then(responses => {
     responses = responses.map(response => response.data);
-    console.log(responses);
+  //  console.log(responses);
     res.locals.weatherData = responses;
     next();
   })

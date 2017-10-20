@@ -5,12 +5,13 @@ const Search = require('../models/search');
 const Weather = require('../models/weather');
 
 // get lat and long and then save to DB
-router.get('/geocode/:placeId',
+router.post('/geocode/:placeId',
   Search.getLatLong,
   Weather.createFromSearch,
   (req, res) => {
     res.json({
-      results: res.locals.latLong
+      location: res.locals.latLong,
+      name: res.locals.name
     });
 });
 
@@ -20,7 +21,8 @@ router.get('/single/:query',
   Weather.createFromSearch,
 	(req, res) => {
 		res.json({
-			results: res.locals.latLong
+			location: res.locals.latLong,
+      name: res.locals.name
 		});
 	});
 
