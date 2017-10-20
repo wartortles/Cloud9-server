@@ -13,12 +13,15 @@ router.get('/', Weather.findAll, Weather.darkSky,
 	});
 
 
-router.get('/:id', Weather.findById,
+router.get('/:id', Weather.findById, Weather.darkSkyOne,
 	(req, res) => {
 		res.json({
-			weather: res.locals.single
+			location: res.locals.single,
+			weather: res.locals.weatherData
 		});
 	});
+
+
 
 
 router.post('/', Weather.create,
