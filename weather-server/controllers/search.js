@@ -4,6 +4,7 @@ const router = express.Router();
 const Search = require('../models/search');
 const Weather = require('../models/weather');
 
+// get lat and long and then save to DB
 router.get('/geocode/:placeId',
   Search.getLatLong,
   Weather.createFromSearch,

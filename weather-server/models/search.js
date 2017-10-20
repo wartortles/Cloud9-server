@@ -2,7 +2,7 @@ const db = require('../db/config');
 const Search = {};
 const axios = require('axios');
 
-
+// autocomplete search results - provides description for display and place id for getting lat and long data
 Search.populateResults = (req, res, next) => {
   const query = req.params.query;
   axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&types=geocode&&key=${process.env.PLACES_KEY}`)
@@ -19,6 +19,7 @@ Search.populateResults = (req, res, next) => {
   });
 }
 
+// gets lat long data from search results
 Search.getLatLong = (req, res, next) => {
   const placeId = req.params.placeId
   axios.get(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${process.env.GEO_KEY}`)
