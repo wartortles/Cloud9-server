@@ -56,9 +56,9 @@ Weather.darkSky = (req, res, next) => {
   const weatherData = [];
   //console.log(res.locals.savedAll);
   res.locals.savedAll.forEach((location) => {
-    const url = `https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`;
+    const url = `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${location.latitude},${location.longitude}`;
     //console.log(url);
-    const weather = axios.get(`https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`)
+    const weather = axios.get(`https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${location.latitude},${location.longitude}`)
     weatherData.push(weather);
   })
 
@@ -73,7 +73,7 @@ Weather.darkSky = (req, res, next) => {
 Weather.darkSkyOne = (req, res, next) => {
 	const weatherData = [];
 	const location = res.locals.single
-	axios.get(`https://api.darksky.net/forecast/62c93130d056ac7bc470247fc5a1fc80/${location.latitude},${location.longitude}`)
+	axios.get(`https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${location.latitude},${location.longitude}`)
 	.then(response => {
 		res.locals.weatherData = response.data
 		next();
