@@ -3,7 +3,7 @@ const Weather = {};
 const axios = require('axios');
 
 Weather.findAll = (req, res, next) => {
-  db.many('SELECT * FROM locations').then((savedAll) => {
+  db.manyOrNone('SELECT * FROM locations').then((savedAll) => {
     res.locals.savedAll = savedAll;
     next();
   }).catch(err => {
